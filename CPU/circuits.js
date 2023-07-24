@@ -9,27 +9,37 @@ import { WordAdder } from "./adder.js"
 export class WordClrNg {
     wordIn;
     control;
-    result = new Array(WORD_SIZE).fill(new Tri());
+    result = [];
+
+    constructor() {
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.result[i] = new Tri();
+        }
+    }
 
     compute() {
-        for (i = 0; i < WORD_SIZE; i++) {
-            this.result[i].setState(gates.MUL(wordIn[i].state, control.state));
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.result[i].setState(gates.MUL(this.wordIn[i].state, this.control.state));
         }
     }
 }
 
 export class AddSub {
-    wordIn1;
-    wordIn2;
     setter = new WordClrNg();
-    control = this.setter.control;
     adder = new WordAdder();
-    constructor() {
+    constructor(control, wordIn1, wordIn2, cIn) {
+        this.cIn = cIn;
+        this.wordIn1 = wordIn1;
+        this.wordIn2 = wordIn2;
+        this.control = control;
+        this.setter.control = this.control;
+        this.setter.wordIn = this.wordIn2;
         this.adder.val1 = this.wordIn1;
         this.adder.val2 = this.setter.result;
+        this.adder.cIn = this.cIn;
     }
     result = this.adder.result;
-    carry = this.adder.carry;
+    carry = this.adder.cOut;
     
     compute() {
         this.setter.compute();
@@ -47,9 +57,9 @@ export class ThreeOne {
     sig;
 
     select() {
-        if (this.control.state == -1) {
+        if (this.sig.state == -1) {
             this.out = this.out1;
-        } else if (this.control.state == 0) {
+        } else if (this.sig.state == 0) {
             this.out = this.out2;
         } else {
             this.out = this.out3;
@@ -75,7 +85,7 @@ export class NineTwo {
     }
 
     select() {
-        sigCode = sigs[0].state.toString()+ "," + sigs[1].state.toString();
+        let sigCode = this.sigs[0].state.toString()+ "," + this.sigs[1].state.toString();
         this.out = this.outs[this.keyMap.get(sigCode)];
     }
 }

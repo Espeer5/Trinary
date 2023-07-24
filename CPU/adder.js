@@ -13,8 +13,8 @@ export class HalfAdder {
     carry = new Tri();
 
     compute() {
-        this.result.setState(gates.ADD(line1.state, line2.state));
-        this.carry.setState(gates.CONS(line1.state, line2.state));
+        this.result.setState(gates.ADD(this.line1.state, this.line2.state));
+        this.carry.setState(gates.CONS(this.line1.state, this.line2.state));
     }
 }
 
@@ -37,7 +37,7 @@ export class Adder {
 
         // Now compute the sum and carry of the result with the carry in
         this.hAdd_cIn.line1 = this.cIn;
-        this.hAdd_cIn.line2 = hAdd_line_out.sum;
+        this.hAdd_cIn.line2 = this.hAdd_lines.result;
         this.hAdd_cIn.compute();
         
         // Set the carry out
@@ -47,27 +47,28 @@ export class Adder {
 
 // Takes in two arrays of Tri objects as a carry in VALUE and computes the result
 export class WordAdder {
-    triAdders = new Array(WORD_SIZE).fill(new Adder());
+    triAdders = [];
     val1;
     val2;
     cIn;
     constructor() {
-        result = [];
-        for (i = 0; i < WORD_SIZE; i++) {
+        let result = [];
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.triAdders[i] = new Adder();
             result[i] = this.triAdders[i].result;
         }
         this.result = result;
+        this.cOut = this.triAdders[WORD_SIZE - 1].COut;
     }
-    cOut = this.triAdders[WORD_SIZE - 1].COut;
     
     compute() {
-        carryProp = cIn;
-        for (i = 0; i < WORD_SIZE; i++) {
-            triAdders[i].line1 = val1[i];
-            triAdders[i].line2 = val2[i];
-            triAdders[i].cIn = carryProp;
-            triAdders[i].compute();
-            carryProp = triResult.carry;
+        let carryProp = this.cIn;
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.triAdders[i].line1 = this.val1[i];
+            this.triAdders[i].line2 = this.val2[i];
+            this.triAdders[i].cIn = carryProp;
+            this.triAdders[i].compute();
+            carryProp = this.triAdders[i].COut;
         }
     }
 }

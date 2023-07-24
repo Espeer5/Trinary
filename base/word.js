@@ -4,7 +4,13 @@ import {Tri} from './tri.js';
 import {WORD_SIZE} from "./constants.js"
 
 export class Word {
-    #data = new Array(WORD_SIZE).fill(new Tri());;
+    #data = [];
+
+    constructor() {
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.#data[i] = new Tri();
+        }
+    }
 
     // read the values of the Tris stored in a word
     readWord() {
@@ -23,7 +29,7 @@ export class Word {
     //String representation of a word
     toString() {
         let rep = "";
-        for(let i = 0; i < WORD_SIZE; i++) {
+        for(let i = (WORD_SIZE - 1); i >= 0; i--) {
             rep += this.#data[i].state;
         }
         return rep

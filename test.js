@@ -1,11 +1,15 @@
-import {Tri} from './base/tri.js';
-import {Word} from './base/word.js';
-import {WORD_SIZE} from "./constants"
+import { CPU } from "./CPU/cpu.js";
 
-let word = new Word();
-let Tris = new Array(WORD_SIZE).fill(new Tri());
-for (let i = 0; i < WORD_SIZE; i++) {
-    Tris[i].setState(-1);
-}
-word.writeWord(Tris);
-console.log(word.toString());
+console.log("running");
+let cpu = new CPU();
+
+// cpu.alu.DBIn1[0].setState(1);
+// cpu.alu.DBIn1[1].setState(-1);
+cpu.alu.DBIn2[0].setState(1);
+cpu.alu.signal_lines[0].setState(-1);
+cpu.alu.signal_lines[1].setState(0);
+cpu.alu.signal_lines[2].setState(0);
+cpu.alu.signal_lines[3].setState(-1);
+cpu.compute();
+console.log(cpu.accumulator.toString());
+console.log(cpu.alu.addsub.carry);

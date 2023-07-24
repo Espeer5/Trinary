@@ -1,3 +1,3 @@
 // System constants
 
-WORD_SIZE = 16;
+export const WORD_SIZE = 16;
