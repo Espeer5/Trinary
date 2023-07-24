@@ -4,8 +4,6 @@ import { wordToDec, decToTri } from "./TriArithmetic/conversions.js";
 console.log("running");
 let cpu = new CPU();
 
-// cpu.alu.DBIn1[0].setState(1);
-// cpu.alu.DBIn1[1].setState(-1);
 cpu.alu.DBIn2[0].setState(1);
 cpu.alu.signal_lines[0].setState(-1);
 cpu.alu.signal_lines[1].setState(0);
