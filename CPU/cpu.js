@@ -1,9 +1,9 @@
 // This file instantiates the trinary CPU with all necessary hardware structures
 
-import {Word} from "../base/word.js"
+import {Word} from "../representation/word.js"
 import { ALU } from "./alu.js";
-import { Tri } from "../base/tri.js";
-import { WORD_SIZE } from "../base/constants.js";
+import { Tri } from "../representation/tri.js";
+import { WORD_SIZE } from "../representation/constants.js";
 
 export class CPU {
     // One-word accumulator

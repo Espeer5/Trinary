@@ -1,8 +1,8 @@
 // Some utility circuits that are used in multiply places in the CPU
 
-import { WORD_SIZE } from "../base/constants.js"
-import { Tri } from "../base/tri.js"
-import * as gates from "../base/gates.js"
+import { WORD_SIZE } from "../representation/constants.js"
+import { Tri } from "../representation/tri.js"
+import * as gates from "../TriArithmetic/gates.js"
 import { WordAdder } from "./adder.js"
 
 // If control is 1, buffers, is -1, negates, is 0, clears

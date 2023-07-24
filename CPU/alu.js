@@ -1,9 +1,9 @@
 // This module describes an arithmetic logic unit for the CPU
 
 import {AddSub, ThreeOne, NineTwo} from "./circuits.js"
-import * as gates from "../base/gates.js"
-import { WORD_SIZE } from "../base/constants.js"
-import {Tri} from "../base/tri.js"
+import * as gates from "../TriArithmetic/gates.js"
+import { WORD_SIZE } from "../representation/constants.js"
+import {Tri} from "../representation/tri.js"
 
 //Runs every line in a bus through the same type of gate
 function wordMap(funct, val) {

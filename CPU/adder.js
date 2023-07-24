@@ -1,9 +1,9 @@
 // Defines an adder as well as the type returned by an adder circuit. Adders 
 // return an object containing both the sum and carry values out of the adder.
 
-import * as gates from "../base/gates.js"
-import {WORD_SIZE} from "../base/constants.js"
-import { Tri } from "../base/tri.js"
+import * as gates from "../TriArithmetic/gates.js"
+import {WORD_SIZE} from "../representation/constants.js"
+import { Tri } from "../representation/tri.js"
 
 export class HalfAdder {
     //Needs 2 input lines
