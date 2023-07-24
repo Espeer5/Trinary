@@ -1,5 +1,5 @@
 import { CPU } from "./CPU/cpu.js";
-import { wordToDec, decToTri } from "./TriArithmetic/conversions.js";
+import { wordToDec } from "./TriArithmetic/conversions.js";
 
 console.log("running");
 let cpu = new CPU();

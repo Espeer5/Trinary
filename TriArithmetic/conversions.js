@@ -12,15 +12,3 @@ export function wordToDec(word) {
     }
     return dec;
 }
-
-export function decToTri(input) {
-    let i = -1;
-    let result = [];
-    while (input != 0) {
-        i += 1;
-        let rem = input % 3;
-        result[i] = rem;
-        input = Math.floor(input / 3);
-    }
-    return result;
-}
