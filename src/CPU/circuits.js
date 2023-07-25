@@ -6,26 +6,26 @@ import * as gates from "../TriArithmetic/gates.js"
 import { WordAdder } from "./adder.js"
 
 export class AddSub {
-    adder = new WordAdder();
     constructor(control, wordIn1, wordIn2, cIn) {
         this.cIn = cIn;
         this.wordIn1 = wordIn1;
         this.wordIn2 = wordIn2;
+        this.adder = new WordAdder(this.wordIn1, this.wordIn2, this.cIn);
         this.control = control;
         this.adder.val1 = this.wordIn1;
         this.adder.val2 = new IOBus();
         this.adder.cIn = this.cIn;
+        this.result = this.adder.busOut;
+        this.carry = this.adder.cOut;
     }
-    result = this.adder.result;
-    carry = this.adder.cOut;
     
     compute() {
         //Extend the control to a WORD_SIZE bus
         let temp = new IOBus();
         for (let i = 0; i < WORD_SIZE; i++) {
-            temp.setTri(i, this.control);
+            temp.setTri(i, this.control.state);
         }
-        this.adder.val2.writeBus(gates.wordMap2(gates.MUL, temp, this.wordIn2));
+        this.adder.val2.writeBus(gates.wordMap2(gates.MUL, temp.data, this.wordIn2.data));
         this.adder.compute();
     }
 }
@@ -68,6 +68,7 @@ export class NineTwo {
     }
 
     select() {
+        console.log(this.sigs);
         let sigCode = this.sigs[0].state.toString()+ "," + this.sigs[1].state.toString();
         this.out = this.outs[this.keyMap.get(sigCode)];
     }

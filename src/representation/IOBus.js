@@ -2,8 +2,8 @@
 // device) to another (input device). This is a standard interface for passing 
 // data between system components.
 
-import { WORD_SIZE } from "./constants";
-import { Tri } from "./tri";
+import { WORD_SIZE } from "./constants.js";
+import { Tri } from "./tri.js";
 
 export class IOBus {
     constructor() {

@@ -2,7 +2,6 @@
 
 import { IOBus } from "../representation/IOBus.js";
 import { WORD_SIZE } from "../representation/constants.js"
-import { Tri } from "../representation/tri.js";
 
 //Takes in an array of Tris, left moves the array in place
 function LMove(val, filler) {
@@ -10,7 +9,7 @@ function LMove(val, filler) {
     for (let i = WORD_SIZE - 1; i > 0; i--) {
         result.setTri(i, val[i - 1].state);
     }
-    result[0].setTri(filler);
+    result.setTri(0, filler);
     return result.readBus();
 }
 
@@ -20,7 +19,7 @@ function RMove(val, filler) {
     for (let i = 0; i < WORD_SIZE - 1; i++) {
         result.setTri(i, val[i + 1].state);
     }
-    result[WORD_SIZE - 1].setTri(filler);
+    result.setTri(WORD_SIZE - 1, filler);
     return result.readBus();
 }
 

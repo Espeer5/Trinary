@@ -1,6 +1,9 @@
 // This file defines the different gates used in the ternary processor as 
 // functions. These gates take in and return state values
 
+import { IOBus } from "../representation/IOBus.js"
+import { WORD_SIZE } from "../representation/constants.js"
+
 // Single input gates first
 
 //Buffer

@@ -20,8 +20,8 @@ class FBlock {
     }
 
     compute() {
-        dataIn1 = this.DBIn1.readBus();
-        dataIn2 = this.DBIn2.readBus();
+        let dataIn1 = this.DBIn1.readBus();
+        let dataIn2 = this.DBIn2.readBus();
         this.mux.outs = [
             wordMap2(gates.MIN, dataIn1, dataIn2), 
             wordMap2(gates.MAX, dataIn1, dataIn2),
@@ -62,7 +62,7 @@ export class ALU {
     //Internal logic blocks
     addsub;
     mux = new ThreeOne();
-    out;
+    out = new IOBus();
 
     constructor(DBIn1, DBIn2, signal_lines) {
         // input data busses
@@ -73,13 +73,12 @@ export class ALU {
         this.signal_lines = signal_lines;
 
         // wire up the adder/subtractor
-        this.addsub = new AddSub(this.signal_lines[0], DBIn1, DBIn2, new Tri());
+        this.addsub = new AddSub(this.signal_lines.data[0], DBIn1, DBIn2, new Tri());
 
         // wire up the fblock
-        this.fblock = new FBlock(this.signal_lines);
+        this.fblock = new FBlock(this.signal_lines.data.slice(1, 3));
         this.fblock.DBIn1 = this.DBIn1;
         this.fblock.DBIn2 = this.DBIn2;
-        this.fblock.selects = this.signal_lines.data.slice(1, 3);
 
         //Wire up the Shifter/Rotater block
         this.shiftRot = new ShiftRotate(this.signal_lines.data.slice(4, 6));
@@ -89,7 +88,7 @@ export class ALU {
         this.mux.out1 = this.fblock.result;
         this.mux.out2 = this.addsub.result;
         this.mux.out3 = this.shiftRot.result;
-        this.mux.sig = this.signal_lines[3];
+        this.mux.sig = this.signal_lines.data[3];
     }
 
     compute() {
@@ -98,5 +97,6 @@ export class ALU {
         this.shiftRot.compute();
         this.mux.select();
         this.out = this.mux.out;
+        console.log(this.out);
     }
 }
