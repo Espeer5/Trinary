@@ -3,28 +3,9 @@
 import {AddSub, ThreeOne, NineTwo} from "./circuits.js"
 import * as gates from "../TriArithmetic/gates.js"
 import * as SR from "../TriArithmetic/shiftRot.js"
-import { WORD_SIZE } from "../representation/constants.js"
 import {Tri} from "../representation/tri.js"
-
-//Runs every line in a bus through the same type of gate
-function wordMap(funct, val) {
-    let result = [];
-    for (let i = 0; i < WORD_SIZE; i++) {
-        result[i] = new Tri();
-        result[i].setState(funct(val[i].state));
-    }
-}
-
-//Runs each tri from the same lines of 2 different busses through the same 
-// 2 input gate
-function wordMap2(funct, val1, val2) {
-    let result = [];
-    for (let i = 0; i < WORD_SIZE; i++) {
-        result[i] = new Tri();
-        result[i].setState(funct(val1[i].state, val2[i].state));
-    }
-    return result
-}
+import { IOBus } from "../representation/IOBus.js"
+import { wordMap, wordMap2 } from "../TriArithmetic/gates.js"
 
 // The F-block allows the ALU to output Tri-wise mapped gate operations between 
 // 2 input busses
@@ -32,54 +13,48 @@ class FBlock {
     DBIn1;
     DBIn2;
     mux = new NineTwo();
-    result = [];
+    result = new IOBus();
     constructor(selects) {
-        for (let i = 0; i < WORD_SIZE; i++) {
-            this.result[i] = new Tri();
-        }
         this.selects = selects;
         this.mux.sigs = this.selects;
     }
 
     compute() {
+        dataIn1 = this.DBIn1.readBus();
+        dataIn2 = this.DBIn2.readBus();
         this.mux.outs = [
-            wordMap2(gates.MIN, this.DBIn1, this.DBIn2), 
-            wordMap2(gates.MAX, this.DBIn1, this.DBIn2),
-            wordMap(gates.INV, this.DBIn1),
-            wordMap(gates.INV, this.DBIn2),
-            wordMap2(gates.CONS, this.DBIn1, this.DBIn2),
-            wordMap2(gates.ANY, this.DBIn1, this.DBIn2),
-            wordMap2(gates.MUL, this.DBIn1, this.DBIn2),
-            wordMap2(gates.ADD, this.DBIn1, this.DBIn2)
+            wordMap2(gates.MIN, dataIn1, dataIn2), 
+            wordMap2(gates.MAX, dataIn1, dataIn2),
+            wordMap(gates.INV, dataIn1),
+            wordMap(gates.INV, dataIn2),
+            wordMap2(gates.CONS, dataIn1, dataIn2),
+            wordMap2(gates.ANY, dataIn1, dataIn2),
+            wordMap2(gates.MUL, dataIn1, dataIn2),
+            wordMap2(gates.ADD, dataIn1, dataIn2)
         ];
         this.mux.select();
-        this.result = this.mux.out;
+        this.result.writeBus(this.mux.out);
     }
 }
 
 class ShiftRotate {
     DBIn;
     mux = new NineTwo();
-    result = [];
+    result = new IOBus();
     constructor(selects) {
-        for (let i = 0; i < WORD_SIZE; i++) {
-            this.result[i] = new Tri();
-        }
         this.selects = selects;
         this.mux.sigs = this.selects;
     }
 
     compute() {
         this.mux.outs = [
-            SR.LShift(this.DBIn),
-            SR.RShift(this.DBIn),
-            SR.LRot(this.DBIn),
-            SR.RRot(this.DBIn)
+            SR.LShift(this.DBIn.readBus()),
+            SR.RShift(this.DBIn.readBus()),
+            SR.LRot(this.DBIn.readBus()),
+            SR.RRot(this.DBIn.readBus())
         ];
         this.mux.select();
-        for (let i = 0; i < WORD_SIZE; i++) {
-            this.result[i].setState(this.mux.out[i].state);
-        }
+        this.result.writeBus(this.mux.out);
     }
 }
 
@@ -104,10 +79,10 @@ export class ALU {
         this.fblock = new FBlock(this.signal_lines);
         this.fblock.DBIn1 = this.DBIn1;
         this.fblock.DBIn2 = this.DBIn2;
-        this.fblock.selects = this.signal_lines.slice(1, 3);
+        this.fblock.selects = this.signal_lines.data.slice(1, 3);
 
         //Wire up the Shifter/Rotater block
-        this.shiftRot = new ShiftRotate(this.signal_lines.slice(4, 6));
+        this.shiftRot = new ShiftRotate(this.signal_lines.data.slice(4, 6));
         this.shiftRot.DBIn = this.DBIn1;
 
         //Wire up the mux

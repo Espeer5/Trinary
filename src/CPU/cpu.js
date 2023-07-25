@@ -4,6 +4,7 @@ import {Word} from "../representation/word.js"
 import { ALU } from "./alu.js";
 import { Tri } from "../representation/tri.js";
 import { WORD_SIZE } from "../representation/constants.js";
+import { IOBus } from "../representation/IOBus.js";
 
 export class CPU {
     // One-word accumulator
@@ -13,19 +14,14 @@ export class CPU {
     flags = new Word();
 
     constructor() {
-        let aluIn1 = [];
-        let aluIn2 = [];
-        let aluControl = [];
-        for (let i = 0; i < WORD_SIZE; i++) {
-            aluIn1[i] = new Tri();
-            aluIn2[i] = new Tri();
-            aluControl[i] = new Tri();
-        }
+        let aluIn1 = new IOBus();
+        let aluIn2 = new IOBus();
+        let aluControl = new IOBus();
         this.alu = new ALU(aluIn1, aluIn2, aluControl);
     }
 
     compute() {
         this.alu.compute();
-        this.accumulator.writeWord(this.alu.out);
+        this.accumulator.writeWord(this.alu.out.readWord());
     }
 }
