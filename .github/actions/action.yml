@@ -1,0 +1,13 @@
+name: 'Test ALU'
+description: 'Tests correctness of CPU ALU operations'
+inputs:
+  github_token:
+    description: 'Github use token'
+    required: false
+    default: 'None'
+outputs:
+  time_taken:
+    description: 'Time taken to complete tests'
+runs:
+  using: 'node16'
+  main: 'tests/test.js'

@@ -1,0 +1,10 @@
+on: [push]
+
+jobs:
+  test_cpu:
+    runs-on: ubuntu-latest
+    name: Tests CPU operations for Ternary System
+    steps:
+      - name: Test ALU
+        id: test_alu
+        uses: Espeer5/Trinary/.github/actions@v0.1
