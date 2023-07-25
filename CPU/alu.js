@@ -2,6 +2,7 @@
 
 import {AddSub, ThreeOne, NineTwo} from "./circuits.js"
 import * as gates from "../TriArithmetic/gates.js"
+import * as SR from "../TriArithmetic/shiftRot.js"
 import { WORD_SIZE } from "../representation/constants.js"
 import {Tri} from "../representation/tri.js"
 
@@ -31,8 +32,11 @@ class FBlock {
     DBIn1;
     DBIn2;
     mux = new NineTwo();
-    result;
+    result = [];
     constructor(selects) {
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.result[i] = new Tri();
+        }
         this.selects = selects;
         this.mux.sigs = this.selects;
     }
@@ -50,6 +54,32 @@ class FBlock {
         ];
         this.mux.select();
         this.result = this.mux.out;
+    }
+}
+
+class ShiftRotate {
+    DBIn;
+    mux = new NineTwo();
+    result = [];
+    constructor(selects) {
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.result[i] = new Tri();
+        }
+        this.selects = selects;
+        this.mux.sigs = this.selects;
+    }
+
+    compute() {
+        this.mux.outs = [
+            SR.LShift(this.DBIn),
+            SR.RShift(this.DBIn),
+            SR.LRot(this.DBIn),
+            SR.RRot(this.DBIn)
+        ];
+        this.mux.select();
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.result[i].setState(this.mux.out[i].state);
+        }
     }
 }
 
@@ -76,15 +106,21 @@ export class ALU {
         this.fblock.DBIn2 = this.DBIn2;
         this.fblock.selects = this.signal_lines.slice(1, 3);
 
+        //Wire up the Shifter/Rotater block
+        this.shiftRot = new ShiftRotate(this.signal_lines.slice(4, 6));
+        this.shiftRot.DBIn = this.DBIn1;
+
         //Wire up the mux
-        this.mux.out1 = this.addsub.result;
+        this.mux.out1 = this.fblock.result;
         this.mux.out2 = this.addsub.result;
+        this.mux.out3 = this.shiftRot.result;
         this.mux.sig = this.signal_lines[3];
     }
 
     compute() {
         this.addsub.compute();
         this.fblock.compute();
+        this.shiftRot.compute();
         this.mux.select();
         this.out = this.mux.out;
     }

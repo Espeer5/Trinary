@@ -1,7 +1,7 @@
 // This module defines a word for this trinary computing system.
 
 import {Tri} from './tri.js';
-import {WORD_SIZE} from "./constants.js"
+import { WORD_SIZE } from './constants.js';
 
 export class Word {
     #data = [];
