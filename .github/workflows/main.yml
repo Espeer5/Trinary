@@ -7,4 +7,4 @@ jobs:
     steps:
       - name: Test ALU
         id: test_alu
-        uses: Espeer5/Trinary/.github/actions@v0.1
+        uses: Espeer5/Trinary/.github/actions@v0.2
