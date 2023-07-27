@@ -20,3 +20,8 @@ cpu.alu.DBIn1.setTri(0, 0);
 cpu.alu.DBIn1.setTri(1, 1);
 cpu.compute();
 console.log(wordToDec(cpu.accumulator));
+for (let i = 0; i < 14; i++) {
+    cpu.alu.DBIn1.writeBus(cpu.accumulator.readWord());
+    cpu.compute();
+    console.log(cpu.accumulator.toString());
+}

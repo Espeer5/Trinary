@@ -73,7 +73,8 @@ export class ALU {
         this.signal_lines = signal_lines;
 
         // wire up the adder/subtractor
-        this.addsub = new AddSub(this.signal_lines.data[0], DBIn1, DBIn2, new Tri());
+        this.addsub = new AddSub(this.signal_lines.data[0], DBIn1, DBIn2, 
+            new Tri());
 
         // wire up the fblock
         this.fblock = new FBlock(this.signal_lines.data.slice(1, 3));
@@ -97,6 +98,5 @@ export class ALU {
         this.shiftRot.compute();
         this.mux.select();
         this.out = this.mux.out;
-        console.log(this.out);
     }
 }

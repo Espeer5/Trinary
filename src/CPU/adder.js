@@ -44,7 +44,8 @@ export class Adder {
     } 
 }
 
-// Takes in two arrays of Tri objects and a carry in VALUE and computes the result
+// Takes in two arrays of Tri objects and a carry in VALUE and computes the 
+// result
 export class WordAdder {
     busOut = new IOBus();
     triAdders = [];

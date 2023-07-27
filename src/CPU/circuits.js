@@ -68,7 +68,6 @@ export class NineTwo {
     }
 
     select() {
-        console.log(this.sigs);
         let sigCode = this.sigs[0].state.toString()+ "," + this.sigs[1].state.toString();
         this.out = this.outs[this.keyMap.get(sigCode)];
     }
