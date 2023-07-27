@@ -4,13 +4,16 @@
 import * as gates from "../TriArithmetic/gates.js"
 import {WORD_SIZE} from "../representation/constants.js"
 import { Tri } from "../representation/tri.js"
+import { IOBus } from "../representation/IOBus.js";
 
 export class HalfAdder {
-    //Needs 2 input lines
-    line1 = new Tri();
-    line2 = new Tri();
-    result = new Tri();
-    carry = new Tri();
+    //Needs 2 input lines, a result and carry out. Should come from an IO bus
+    constructor(line1, line2, result, carry) {
+        this.line1 = line1;
+        this.line2 = line2;
+        this.result = result;
+        this.carry = carry;
+    }
 
     compute() {
         this.result.setState(gates.ADD(this.line1.state, this.line2.state));
@@ -19,56 +22,56 @@ export class HalfAdder {
 }
 
 export class Adder {
-    //Needs 2 input lines and a carry in line
-    line1 = new Tri();
-    line2 = new Tri();
-    cIn = new Tri();
     //Has 2 internal half adders, one adds the input lines, one adds Cin
-    hAdd_lines = new HalfAdder();
-    hAdd_cIn = new HalfAdder();
-    result = this.hAdd_cIn.result;
-    COut = new Tri();
+    constructor(line1, line2, cIn, result, cOut) {
+        let inter_r = new Tri();
+        this.inter_c_1 = new Tri();
+        this.inter_c_2 = new Tri();
+        this.hAdd_lines = new HalfAdder(line1, line2, inter_r, this.inter_c_1);
+        this.hAdd_cIn = new HalfAdder(cIn, inter_r, result, this.inter_c_2);
+        this.result = result;
+        this.cOut = cOut;
+    }
 
     compute() {
         // Compute the sum and carry of the input lines
-        this.hAdd_lines.line1 = this.line1;
-        this.hAdd_lines.line2 = this.line2;
         this.hAdd_lines.compute();
 
         // Now compute the sum and carry of the result with the carry in
-        this.hAdd_cIn.line1 = this.cIn;
-        this.hAdd_cIn.line2 = this.hAdd_lines.result;
         this.hAdd_cIn.compute();
-        
         // Set the carry out
-        this.COut.setState(gates.ANY(this.hAdd_lines.carry.state, this.hAdd_cIn.carry.state));
+        this.cOut.setState(gates.ANY(this.inter_c_1, this.inter_c_2));
     } 
 }
 
-// Takes in two arrays of Tri objects as a carry in VALUE and computes the result
+// Takes in two arrays of Tri objects and a carry in VALUE and computes the 
+// result
 export class WordAdder {
+    busOut = new IOBus();
     triAdders = [];
-    val1;
-    val2;
-    cIn;
-    constructor() {
-        let result = [];
+    constructor(busIn1, busIn2, cIn) {
+        this.busIn1 = busIn1;
+        this.busIn2 = busIn2;
+        this.cIn = cIn;
         for (let i = 0; i < WORD_SIZE; i++) {
-            this.triAdders[i] = new Adder();
-            result[i] = this.triAdders[i].result;
+            let carryProp = this.cIn;
+            if (i != 0) {
+                carryProp = this.triAdders[i - 1].cOut;
+            }
+            this.triAdders[i] = new Adder(
+                this.busIn1.data[i], 
+                this.busIn2.data[i],
+                carryProp,
+                this.busOut.data[i],
+                new Tri()
+            );
         }
-        this.result = result;
-        this.cOut = this.triAdders[WORD_SIZE - 1].COut;
+        this.cOut = this.triAdders[WORD_SIZE - 1].cOut;
     }
     
     compute() {
-        let carryProp = this.cIn;
         for (let i = 0; i < WORD_SIZE; i++) {
-            this.triAdders[i].line1 = this.val1[i];
-            this.triAdders[i].line2 = this.val2[i];
-            this.triAdders[i].cIn = carryProp;
             this.triAdders[i].compute();
-            carryProp = this.triAdders[i].COut;
         }
     }
 }

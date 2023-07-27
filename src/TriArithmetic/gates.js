@@ -1,6 +1,9 @@
 // This file defines the different gates used in the ternary processor as 
 // functions. These gates take in and return state values
 
+import { IOBus } from "../representation/IOBus.js"
+import { WORD_SIZE } from "../representation/constants.js"
+
 // Single input gates first
 
 //Buffer
@@ -109,4 +112,25 @@ export function ADD(val1, val2) {
 //Inverse add
 export function NADD(val1, val2) {
     return INV(ADD(val1, val2))
+}
+
+//Bus-wise gate application
+
+//Runs every line in a bus through the same type of gate
+export function wordMap(funct, val) {
+    let result = new IOBus;
+    for (let i = 0; i < WORD_SIZE; i++) {
+       result.setTri(i, funct(val[i].state));
+    }
+    return result.readBus()
+}
+
+//Runs each tri from the same lines of 2 different busses through the same 
+// 2 input gate
+export function wordMap2(funct, val1, val2) {
+    let result = new IOBus();
+    for (let i = 0; i < WORD_SIZE; i++) {
+        result.setTri(i, funct(val1[i].state, val2[i].state));
+    }
+    return result.readBus()
 }
