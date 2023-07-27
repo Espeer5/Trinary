@@ -2,10 +2,12 @@
   "name": "trinary",
   "version": "1.0.0",
   "description": "A ternary computer simulator, capable of being built in CMOS.",
-  "main": "test.js",
+  "main": "cpu.js",
   "type": "module",
   "scripts": {
-    "test_alu": "node tests/test_alu.js"
+    "test": "mocha --loader=testdouble",
+    "test:watch": "mocha --loader=testdouble test/unit --parallel --watch",
+    "test:cov": "c8 mocha --loader=testdouble"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,11 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^10.2.0",
+    "testdouble": "^3.18.0"
   }
 }
