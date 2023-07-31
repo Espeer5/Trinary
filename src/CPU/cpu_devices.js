@@ -1,10 +1,51 @@
-// Some utility circuits that are used in multiply places in the CPU
+// Some utility devices used throughout the CPU. Each device is a subclass of
+// AbsractDevice, which is defined in src/representation/device.js.
 
 import { WORD_SIZE } from "../representation/constants.js"
-import { IOBus } from "../representation/IOBus.js";
+import { IOBus } from "../representation/IOBus.js"
 import * as gates from "../TriArithmetic/gates.js"
-import { WordAdder } from "./adder.js"
-import { AbsractDevice } from "../representation/device.js";
+import { AbsractDevice } from "../representation/device.js"
+import { Adder } from "./adder.js"
+import { Tri } from "../representation/tri.js"
+
+// Takes in two arrays of Tri objects and a carry in VALUE and computes the 
+// result and carry out value. 
+export class WordAdder extends AbsractDevice {
+    //A full adder device for 2 input IO busses with carry in and carry out
+    //Create an array of tri adders
+    triAdders = [];
+    constructor(busIn1, busIn2, cIn) {
+        //extend AbstractDevice functionality
+        super();
+        // Wire up the 2 input busses as device inputs and the carry in
+        this.addInput(busIn1);
+        this.addInput(busIn2);
+        this.cIn = cIn;
+        // Wire the internal tri adders with carry propogation
+        for (let i = 0; i < WORD_SIZE; i++) {
+            let carryProp = this.cIn;
+            if (i != 0) {
+                carryProp = this.triAdders[i - 1].cOut;
+            }
+            this.triAdders[i] = new Adder(
+                this.inputs[0].data[i], 
+                this.inputs[1].data[i],
+                carryProp,
+                this.output.data[i],
+                new Tri()
+            );
+        }
+        // Each cOut should be stored in the next adders cIn
+        this.cOut = this.triAdders[WORD_SIZE - 1].cOut;
+    }
+    
+    compute() {
+        // Compute the output of each tri adder as wired in the constructor
+        for (let i = 0; i < WORD_SIZE; i++) {
+            this.triAdders[i].compute();
+        }
+    }
+}
 
 export class AddSub extends AbsractDevice{
     constructor(control, wordIn1, wordIn2, cIn) {
