@@ -2,9 +2,8 @@
 
 import {Word} from "../representation/word.js"
 import { ALU } from "./alu.js";
-import { Tri } from "../representation/tri.js";
-import { WORD_SIZE } from "../representation/constants.js";
 import { IOBus } from "../representation/IOBus.js";
+import { AbsractDevice } from "../representation/device.js";
 
 export class CPU {
     // One-word accumulator
@@ -22,6 +21,7 @@ export class CPU {
 
     compute() {
         this.alu.compute();
-        this.accumulator.writeWord(this.alu.out.readBus());
+        console.log(this.alu.output.readBus());
+        this.accumulator.writeWord(this.alu.output.readBus());
     }
 }

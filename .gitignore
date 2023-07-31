@@ -1,1 +1,5 @@
+# Ignore any html used for local testing
 *.html
+
+# Ignore any scripts used to generate test data
+*.py
