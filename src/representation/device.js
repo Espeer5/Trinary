@@ -8,13 +8,16 @@ import { IOBus } from "./IOBus.js"
 export class AbsractDevice {
     // All devices must have a list of inputs and an output IOBus. Each entry 
     // in the inputs array is an IOBus.
-    #inputs = [];
-    #output = new IOBus();
+    inputs = [];
+    output = new IOBus();
 
     addInput(bus) {
         // Adds an input to the device. The input must be an IOBus
-        assert(bus instanceof IOBus, "Input must be an IOBus");
-        this.#inputs.push(bus);
+        if(bus instanceof IOBus) {;
+            this.inputs.push(bus);
+        } else {
+            throw new Error("Input must be an IOBus");
+        }
     }
 
     compute() {
