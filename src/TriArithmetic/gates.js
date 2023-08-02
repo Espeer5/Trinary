@@ -1,22 +1,39 @@
-// This file defines the different gates used in the ternary processor as 
-// functions. These gates take in and return state values
+/** 
+ * This file defines the different gates used in the ternary processor as 
+ * functions. These gates take in and return state values
+ */
 
 import { IOBus } from "../representation/IOBus.js"
 import { WORD_SIZE } from "../representation/constants.js"
 
 // Single input gates first
 
-//Buffer
+/**
+ * Buffer Gate
+ * 
+ * @param {number} val - the value to pass through the gate
+ * @returns {number} - BUF(val)
+ */
 export function BUF(val) {
     return val
 }
 
-//Inverter
+/**
+ * Inverter Gate
+ * 
+ * @param {number} val - the value to pass through the gate
+ * @returns {number} - INV(val)
+ */
 export function INV(val) {
     return -1 * val
 }
 
-//Positive bias inverter
+/**
+ * Positive Bias Inverter Gate
+ * 
+ * @param {number} val - the value to pass through the gate
+ * @returns {number} - PINV(val)
+ */
 export function PINV(val) {
     if (val == 0) {
         return 1
@@ -25,7 +42,12 @@ export function PINV(val) {
     }
 }
 
-//Negative bias inverter
+/**
+ * Negative Bias Inverter Gate
+ * 
+ * @param {number} val - the value to pass through the gate
+ * @returns {number} - NINV(val)
+ */
 export function NINV(val) {
     if (val == 0) {
         return -1
@@ -36,27 +58,57 @@ export function NINV(val) {
 
 // Two input gates
 
-//Minimum
+/**
+ * Minimum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - MIN(val1, val2)
+ */
 export function MIN(val1, val2) {
     return Math.min(val1, val2)
 }
 
-//Maximum
+/**
+ * Maximum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - MAX(val1, val2)
+ */
 export function MAX(val1, val2) {
     return Math.max(val1, val2)
 }
 
-//Inverse minimum
+/**
+ * Inverse Minimum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(MIN(val1, val2))
+ */
 export function nMIN(val1, val2) {
     return INV(MIN(val1, val2))
 }
 
-//Inverse maximum
+/**
+ * Inverse Maximum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(MAX(val1, val2))
+ */
 export function NMAX(val1, val2) {
     return INV(MAX(val1, val2))
 }
 
-//Consensus
+/**
+ * Consensus Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - CONS(val1, val2)
+ */
 export function CONS(val1, val2) {
     if (val1 == val2) {
         return val1
@@ -65,12 +117,24 @@ export function CONS(val1, val2) {
     }
 }
 
-//Inverse consensus
+/**
+ * Inverse Consensus Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(CONS(val1, val2))
+ */
 export function NCONS(val1, val2) {
     return INV(CONS(val1, val2))
 }
 
-//Any
+/**
+ * Any Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - ANY(val1, val2)
+ */
 export function ANY(val1, val2) {
     if (val1 == val2) {
         return val1
@@ -83,22 +147,46 @@ export function ANY(val1, val2) {
     }
 }
 
-//Inverse any
+/**
+ * Inverse Any Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(ANY(val1, val2))
+ */
 export function NANY(val1, val2) {
     return INV(ANY(val1, val2))
 }
 
-//Multiply
+/**
+ * Multiply Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - MUL(val1, val2)
+ */
 export function MUL(val1, val2) {
     return val1 * val2
 }
 
-//Inverse multiply
+/**
+ * Inverse Multiply Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(MUL(val1, val2))
+ */
 export function NMUL(val1, val2) {
     return INV(MUL(val1, val2))
 }
 
-//Add
+/**
+ * Sum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - SUM(val1, val2)
+ */
 export function ADD(val1, val2) {
     if (val1 == -1 && val2 == -1) {
         return 1
@@ -109,14 +197,26 @@ export function ADD(val1, val2) {
     }
 }
 
-//Inverse add
+/**
+ * Inverse Sum Gate
+ * 
+ * @param {number} val1 
+ * @param {number} val2 
+ * @returns {number} - INV(SUM(val1, val2))
+ */
 export function NADD(val1, val2) {
     return INV(ADD(val1, val2))
 }
 
 //Bus-wise gate application
 
-//Runs every line in a bus through the same type of gate
+/**
+ * Applies a function to each tri in a bus
+ * 
+ * @param {Function} funct - The function to apply to each tri
+ * @param {Tri[]} val - The array of tris to apply the function to
+ * @returns {Tri[]} - The array of tris with the function applied
+ */
 export function wordMap(funct, val) {
     let result = new IOBus;
     for (let i = 0; i < WORD_SIZE; i++) {
@@ -125,8 +225,14 @@ export function wordMap(funct, val) {
     return result.readBus()
 }
 
-//Runs each tri from the same lines of 2 different busses through the same 
-// 2 input gate
+/**
+ * Applies a function to each pair of tris at the same indices in two busses
+ * 
+ * @param {Function} funct - The function to apply to each tri
+ * @param {Tri[]} val1 - The first array of tris to apply the function to
+ * @param {Tri[]} val2 - The second array of tris to apply the function to
+ * @returns {Tri[]} - The array of tris resulting from the function
+ */
 export function wordMap2(funct, val1, val2) {
     let result = new IOBus();
     for (let i = 0; i < WORD_SIZE; i++) {

@@ -3,3 +3,6 @@
 
 # Ignore any scripts used to generate test data
 *.py
+
+# Ignore the locally generated API documentation
+out/
