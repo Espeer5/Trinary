@@ -35,7 +35,6 @@ jobs:
         with:
           source_dir: ./src
           output_dir: ./docs
-          template: minami
           front_page: README.md
 
       - name: Deploy
