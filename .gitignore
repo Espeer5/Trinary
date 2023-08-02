@@ -6,3 +6,6 @@
 
 # Ignore the locally generated API documentation
 out/
+
+# Ignore key-gens
+gh-*

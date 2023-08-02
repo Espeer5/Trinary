@@ -3,7 +3,7 @@
  * AbsractDevice, which is defined in src/representation/device.js.
  * */
 
-import { WORD_SIZE } from ".constants.js"
+import { WORD_SIZE } from "../constants.js"
 import { IOBus } from "../representation/IOBus.js"
 import * as gates from "../TriArithmetic/gates.js"
 import { AbsractDevice } from "../representation/device.js"
