@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: clock.js</title>
+    <title>JSDoc: Class: CPU</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,53 +17,146 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: clock.js</h1>
+    <h1 class="page-title">Class: CPU</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * This module defines the system clock for the trinary computer. The clock is
- * cycle runs at a rate of CLOCK_RATE Hz, with each cycle beginning with a 
- * rising edge and ending on the next rising edge.
- */
+        <h2><span class="attribs"><span class="type-signature"></span></span>CPU<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">The CPU of the trinary computer. This class contains the accumulator, flags
+register, and component modules of the CPU, which include the ALU, control
+unit, PAU, and DAU. TODO: Add modules and complete docs</div>
+        
+    
+</header>
 
-import { CLOCK_RATE } from "./constants.js";
-import { Tri } from "./representation/tri.js";
+<article>
+    <div class="container-overview">
+    
+        
 
-/** 
- * The clock is an object whose state is a Tri, but with only two states, 1 and 
- * -1. The clock's state is updated by the tick() method, which is called at a 
- * regular interval by the system determined by the CLOCK_RATE constant. The 
- * clock is always initialized to -1.
- * 
- * @property {Tri} state - the state of the clock. Must be 1 or -1
- */
-export class Clock {
-    state = new Tri();
+    
+    <h2>Constructor</h2>
+    
 
-    constructor() {
-        // The clock's state is initialized to -1
-        this.state.setState(-1);
-    }
+    
+    <h4 class="name" id="CPU"><span class="type-signature"></span>new CPU<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
-    /** Flip the clock's state */
-    tick() {
-        this.state.state *= -1;
-    }
+    
 
-    /** Start the cycling of the clock */
-    start() {
-        setInterval(this.tick.bind(this), (1 / CLOCK_RATE) * 1000);
-    }
 
-}</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="CPU_cpu.js.html">CPU/cpu.js</a>, <a href="CPU_cpu.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="CPU.html">CPU</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

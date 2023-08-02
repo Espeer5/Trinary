@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: clock.js</title>
+    <title>JSDoc: Source: representation/device.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: clock.js</h1>
+    <h1 class="page-title">Source: representation/device.js</h1>
 
     
 
@@ -27,40 +27,48 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/** 
- * This module defines the system clock for the trinary computer. The clock is
- * cycle runs at a rate of CLOCK_RATE Hz, with each cycle beginning with a 
- * rising edge and ending on the next rising edge.
+ * This file contains a standard interface for a logic device installed 
+ * into the machine. An example of a device is an adder/subtractor, or something 
+ * as large as the entire CPU
  */
 
-import { CLOCK_RATE } from "./constants.js";
-import { Tri } from "./representation/tri.js";
+import { IOBus } from "./IOBus.js"
 
-/** 
- * The clock is an object whose state is a Tri, but with only two states, 1 and 
- * -1. The clock's state is updated by the tick() method, which is called at a 
- * regular interval by the system determined by the CLOCK_RATE constant. The 
- * clock is always initialized to -1.
+/**
+ * Abstract class representing a logic device. All devices must inherit from
+ * this class and implement the compute() function. Every device must have a
+ * list of inputs and an output IOBus. Each entry in the inputs array is an
+ * IOBus.
  * 
- * @property {Tri} state - the state of the clock. Must be 1 or -1
+ * @property {IOBus[]} inputs - the list of IOBusses that are inputs to the device
+ * @property {IOBus} output - the IOBus that is the output of the device
  */
-export class Clock {
-    state = new Tri();
+export class AbsractDevice {
+    inputs = [];
+    output = new IOBus();
 
-    constructor() {
-        // The clock's state is initialized to -1
-        this.state.setState(-1);
+    addInput(bus) {
+        /**
+         * Add an input to the device. The input must be an IOBus
+         * 
+         * @param {IOBus} bus - the IOBus to add to the device
+         */
+        if(bus instanceof IOBus) {;
+            this.inputs.push(bus);
+        } else {
+            throw new Error("Input must be an IOBus");
+        }
     }
 
-    /** Flip the clock's state */
-    tick() {
-        this.state.state *= -1;
+    compute() {
+        /**
+         * Compute the output of the device based on the input. This function
+         * must be implemented by each device
+         * 
+         * @abstract
+         */
+        throw new Error("Not implemented for abstract device");
     }
-
-    /** Start the cycling of the clock */
-    start() {
-        setInterval(this.tick.bind(this), (1 / CLOCK_RATE) * 1000);
-    }
-
 }</code></pre>
         </article>
     </section>

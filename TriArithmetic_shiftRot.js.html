@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: clock.js</title>
+    <title>JSDoc: Source: TriArithmetic/shiftRot.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: clock.js</h1>
+    <h1 class="page-title">Source: TriArithmetic/shiftRot.js</h1>
 
     
 
@@ -26,42 +26,85 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * This module defines the system clock for the trinary computer. The clock is
- * cycle runs at a rate of CLOCK_RATE Hz, with each cycle beginning with a 
- * rising edge and ending on the next rising edge.
- */
+            <pre class="prettyprint source linenums"><code>/** Utility functions for shifting or rotating a word on this system */
 
-import { CLOCK_RATE } from "./constants.js";
-import { Tri } from "./representation/tri.js";
+import { IOBus } from "../representation/IOBus.js";
+import { WORD_SIZE } from "../constants.js"
 
 /** 
- * The clock is an object whose state is a Tri, but with only two states, 1 and 
- * -1. The clock's state is updated by the tick() method, which is called at a 
- * regular interval by the system determined by the CLOCK_RATE constant. The 
- * clock is always initialized to -1.
+ * Takes in an array of Tris, left moves the array in place
  * 
- * @property {Tri} state - the state of the clock. Must be 1 or -1
+ * @param {Tri[]} val - the array of tris to move
+ * @param {number} filler - the value to fill the empty space with
+ * @returns {Tri[]} - the shifted array
  */
-export class Clock {
-    state = new Tri();
-
-    constructor() {
-        // The clock's state is initialized to -1
-        this.state.setState(-1);
+function LMove(val, filler) {
+    let result = new IOBus();
+    for (let i = WORD_SIZE - 1; i > 0; i--) {
+        result.setTri(i, val[i - 1].state);
     }
+    result.setTri(0, filler);
+    return result.readBus();
+}
 
-    /** Flip the clock's state */
-    tick() {
-        this.state.state *= -1;
+/**
+ * Takes in an array of Tris, right moves the array in place
+ * 
+ * @param {Tri[]} val - the array of tris to move
+ * @param {number} filler - the value to fill the empty space with
+ * @returns {Tri[]} - the shifted array
+ */
+function RMove(val, filler) {
+    let result = new IOBus();
+    for (let i = 0; i &lt; WORD_SIZE - 1; i++) {
+        result.setTri(i, val[i + 1].state);
     }
+    result.setTri(WORD_SIZE - 1, filler);
+    return result.readBus();
+}
 
-    /** Start the cycling of the clock */
-    start() {
-        setInterval(this.tick.bind(this), (1 / CLOCK_RATE) * 1000);
-    }
+/** 
+ * Left shifts the word
+ * 
+ * @param {Tri[]} val - the array of tris to shift
+ * @returns {Tri[]} - the shifted array
+ */
+export function LShift(val) {
+    return LMove(val, 0)
+}
 
-}</code></pre>
+/** 
+ * right shifts the word
+ * 
+ * @param {Tri[]} val - the array of tris to shift
+ * @returns {Tri[]} - the shifted array
+ */
+export function RShift(val) {
+    return RMove(val, 0)
+}
+
+/** 
+ * Rotate the word left
+ * 
+ * @param {Tri[]} val - the array of tris to rotate
+ * @returns {Tri[]} - the rotated array
+ */
+export function LRot(val) {
+    let filler = val[WORD_SIZE - 1];
+    return LMove(val, filler.state)
+}
+
+/**
+ * Rotate the word right
+ * 
+ * @param {Tri[]} val - the array of tris to rotate
+ * @returns {Tri[]} - the rotated array
+ */
+export function RRot(val) {
+    let filler = val[0];
+    return RMove(val, filler.state)
+}
+</code></pre>
         </article>
     </section>
 

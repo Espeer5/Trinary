@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: clock.js</title>
+    <title>JSDoc: Source: representation/word.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: clock.js</h1>
+    <h1 class="page-title">Source: representation/word.js</h1>
 
     
 
@@ -26,41 +26,66 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** 
- * This module defines the system clock for the trinary computer. The clock is
- * cycle runs at a rate of CLOCK_RATE Hz, with each cycle beginning with a 
- * rising edge and ending on the next rising edge.
- */
+            <pre class="prettyprint source linenums"><code>/** This module defines a word for this trinary computing system. */
 
-import { CLOCK_RATE } from "./constants.js";
-import { Tri } from "./representation/tri.js";
+import {Tri} from './tri.js';
+import { WORD_SIZE } from '../constants.js';
 
-/** 
- * The clock is an object whose state is a Tri, but with only two states, 1 and 
- * -1. The clock's state is updated by the tick() method, which is called at a 
- * regular interval by the system determined by the CLOCK_RATE constant. The 
- * clock is always initialized to -1.
+/**
+ * Class representing a word as an array of Tris. Each word is of size WORD_SIZE
+ * defined in constants.js. Words are intended as the basic unit of data storage
+ * and are stored in one place. They are not intended to be used as registers 
+ * or for computation, use IOBusses for that. As a result the data is a 
+ * protected field and can only be accessed through the readWord() and
+ * writeWord() methods.
  * 
- * @property {Tri} state - the state of the clock. Must be 1 or -1
+ * @property {Tri[]} data - the private array of Tris that make up the word
  */
-export class Clock {
-    state = new Tri();
+export class Word {
+    #data = [];
 
     constructor() {
-        // The clock's state is initialized to -1
-        this.state.setState(-1);
+        for (let i = 0; i &lt; WORD_SIZE; i++) {
+            this.#data[i] = new Tri();
+        }
     }
 
-    /** Flip the clock's state */
-    tick() {
-        this.state.state *= -1;
+    /**
+     * Return the data array stored in the word to read their states
+     * 
+     * @returns {Tri[]} - the array of Tris stored in the word
+     */
+    readWord() {
+        return this.#data;
     }
 
-    /** Start the cycling of the clock */
-    start() {
-        setInterval(this.tick.bind(this), (1 / CLOCK_RATE) * 1000);
+    /**
+     * Write an array of Tris to the word. The array must be of size WORD_SIZE
+     * 
+     * @param {Tri[]} data - the array of Tris to write to the word
+     * @throws {Error} - if the array is not of size WORD_SIZE
+     */
+    writeWord(data) {
+        if (data.length == WORD_SIZE &amp;&amp; data[0] instanceof Tri) {
+            this.#data = data;
+        } else {
+            console.error("Attempting to write invalid value to word");
+        }
     }
 
+    /**
+     * Return a string representation of the word. The string is the
+     * concatenation of the states of the Tris in the word
+     * 
+     * @returns {string} - a string representation of the word
+     */
+    toString() {
+        let rep = "";
+        for(let i = (WORD_SIZE - 1); i >= 0; i--) {
+            rep += this.#data[i].state;
+        }
+        return rep
+    }
 }</code></pre>
         </article>
     </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: clock.js</title>
+    <title>JSDoc: Source: representation/IOBus.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: clock.js</h1>
+    <h1 class="page-title">Source: representation/IOBus.js</h1>
 
     
 
@@ -27,40 +27,71 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/** 
- * This module defines the system clock for the trinary computer. The clock is
- * cycle runs at a rate of CLOCK_RATE Hz, with each cycle beginning with a 
- * rising edge and ending on the next rising edge.
+ * An IObus is a word-sized bus which may pass Tris from one device (the output)
+ * device) to another (input device). This is a standard interface for passing 
+ * data between system components.
  */
 
-import { CLOCK_RATE } from "./constants.js";
-import { Tri } from "./representation/tri.js";
+import { WORD_SIZE } from "../constants.js";
+import { Tri } from "./tri.js";
 
-/** 
- * The clock is an object whose state is a Tri, but with only two states, 1 and 
- * -1. The clock's state is updated by the tick() method, which is called at a 
- * regular interval by the system determined by the CLOCK_RATE constant. The 
- * clock is always initialized to -1.
+/**
+ * Class representing an IOBus. An IOBus is a word-sized bus which may pass Tris
+ * from one device (the output device) to another (input device). This is a
+ * standard interface for passing data between system components.
  * 
- * @property {Tri} state - the state of the clock. Must be 1 or -1
+ * @property {Tri[]} data - the array of Tris that make up the IOBus
  */
-export class Clock {
-    state = new Tri();
-
+export class IOBus {
     constructor() {
-        // The clock's state is initialized to -1
-        this.state.setState(-1);
+        this.data = [];
+        for(let i = 0; i &lt; WORD_SIZE; i++) {
+            this.data[i] = new Tri();
+        }
     }
 
-    /** Flip the clock's state */
-    tick() {
-        this.state.state *= -1;
+    /**
+     * Set the state of the ith tri in the bus to the state v, which must be a
+     * valid state for a Tri.
+     * 
+     * @param {number} i - the index of the Tri to set
+     * @param {number} v - the state to set the Tri to
+     * @throws {Error} - if v is not a valid state for a Tri
+     */
+    setTri(i, v) {
+        this.data[i].setState(v);
     }
 
-    /** Start the cycling of the clock */
-    start() {
-        setInterval(this.tick.bind(this), (1 / CLOCK_RATE) * 1000);
+    /** 
+     * Write the entire bus to the given array of Tris. The array must be of
+     * size WORD_SIZE.
+     * 
+     * @param {Tri[]} v - the array of Tris to write to the bus
+     */
+    writeBus(v) {
+        for (let i = 0; i &lt; WORD_SIZE; i++) {
+            this.setTri(i, v[i].state);
+        }
     }
 
+    /**
+     * Reads the state of the ith Tri in the bus
+     * 
+     * @param {number} i 
+     * @returns {number} - the state of the ith Tri in the bus
+     */
+    readTri(i) {
+        return this.data[i].state
+    }
+
+    /**
+     * Reads the entire bus
+     * 
+     * @returns {Tri[]} - the array of Tris stored in the bus
+     */
+    readBus() {
+        return this.data
+    }
 }</code></pre>
         </article>
     </section>

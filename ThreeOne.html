@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Clock</title>
+    <title>JSDoc: Class: ThreeOne</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Clock</h1>
+    <h1 class="page-title">Class: ThreeOne</h1>
 
     
 
@@ -28,12 +28,10 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Clock<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ThreeOne<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">The clock is an object whose state is a Tri, but with only two states, 1 and 
--1. The clock's state is updated by the tick() method, which is called at a 
-regular interval by the system determined by the CLOCK_RATE constant. The 
-clock is always initialized to -1.</div>
+            <div class="class-description">A Three to one mux device. Takes in three inputs and a control signal and
+selects the output based on the control signal.</div>
         
     
 </header>
@@ -48,7 +46,7 @@ clock is always initialized to -1.</div>
     
 
     
-    <h4 class="name" id="Clock"><span class="type-signature"></span>new Clock<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ThreeOne"><span class="type-signature"></span>new ThreeOne<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -93,7 +91,99 @@ clock is always initialized to -1.</div>
 
         <tr>
             
-                <td class="name"><code>state</code></td>
+                <td class="name"><code>out1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the first input</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>out2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the second input</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>out3</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the third input</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>out</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the output</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sig</code></td>
             
 
             <td class="type">
@@ -109,7 +199,7 @@ clock is always initialized to -1.</div>
 
             
 
-            <td class="description last">the state of the clock. Must be 1 or -1</td>
+            <td class="description last">the control signal</td>
         </tr>
 
     
@@ -148,7 +238,7 @@ clock is always initialized to -1.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="clock.js.html">clock.js</a>, <a href="clock.js.html#line18">line 18</a>
+        <a href="CPU_cpu_devices.js.html">CPU/cpu_devices.js</a>, <a href="CPU_cpu_devices.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -186,13 +276,6 @@ clock is always initialized to -1.</div>
     
 
     
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="Clock.html">Clock</a></dt>
-            <dd></dd>
-        </dl>
-    
 
     
 
@@ -211,7 +294,7 @@ clock is always initialized to -1.</div>
     
 
     
-    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -219,7 +302,8 @@ clock is always initialized to -1.</div>
 
 
 <div class="description">
-    Start the cycling of the clock
+    Set the output signal of the mux based on the state of the control 
+signal.
 </div>
 
 
@@ -263,95 +347,7 @@ clock is always initialized to -1.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="clock.js.html">clock.js</a>, <a href="clock.js.html#line32">line 32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="tick"><span class="type-signature"></span>tick<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Flip the clock's state
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="clock.js.html">clock.js</a>, <a href="clock.js.html#line27">line 27</a>
+        <a href="CPU_cpu_devices.js.html">CPU/cpu_devices.js</a>, <a href="CPU_cpu_devices.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
