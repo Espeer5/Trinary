@@ -4,7 +4,7 @@
  * rising edge and ending on the next rising edge.
  */
 
-import { CLOCK_RATE } from "./representation/constants.js";
+import { CLOCK_RATE } from "./constants.js";
 import { Tri } from "./representation/tri.js";
 
 /** 

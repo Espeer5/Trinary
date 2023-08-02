@@ -3,7 +3,7 @@
  * representations
 */
 
-import { WORD_SIZE } from "../representation/constants.js";
+import { WORD_SIZE } from "../constants.js";
 import { Word } from "../representation/word.js";
 import { Tri } from "../representation/tri.js";
 

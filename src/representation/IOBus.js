@@ -4,7 +4,7 @@
  * data between system components.
  */
 
-import { WORD_SIZE } from "./constants.js";
+import { WORD_SIZE } from "../constants.js";
 import { Tri } from "./tri.js";
 
 /**

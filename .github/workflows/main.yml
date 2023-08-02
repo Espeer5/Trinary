@@ -24,6 +24,10 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm run test
+<<<<<<< Updated upstream
+=======
+      name: GitHub pages
+>>>>>>> Stashed changes
   deploy:
     runs-on: ubuntu-latest
     steps:

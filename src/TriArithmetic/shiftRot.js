@@ -1,7 +1,7 @@
 /** Utility functions for shifting or rotating a word on this system */
 
 import { IOBus } from "../representation/IOBus.js";
-import { WORD_SIZE } from "../representation/constants.js"
+import { WORD_SIZE } from "../constants.js"
 
 /** 
  * Takes in an array of Tris, left moves the array in place

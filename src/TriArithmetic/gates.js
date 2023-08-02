@@ -4,7 +4,7 @@
  */
 
 import { IOBus } from "../representation/IOBus.js"
-import { WORD_SIZE } from "../representation/constants.js"
+import { WORD_SIZE } from "../constants.js"
 
 // Single input gates first
 
