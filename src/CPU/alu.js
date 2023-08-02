@@ -1,10 +1,12 @@
-// This module describes an arithmetic logic unit for the CPU. An ALU is a
-// combinational logic device which performs arithmetic and tritwise operations
-// on two input busses. The ALU is controlled by a set of control signals which 
-// determine which operation is performed and are specified by the CPU control 
-// unit. The ALU has output bus is set to the output of a mux, which selects 
-// from the output of an internal shifter/rotater block, an fblock which 
-// computes tritwise operations, and an adder/subtractor block.
+/** 
+ * This module describes an arithmetic logic unit for the CPU. An ALU is a
+ * combinational logic device which performs arithmetic and tritwise operations
+ * on two input busses. The ALU is controlled by a set of control signals which 
+ * determine which operation is performed and are specified by the CPU control 
+ * unit. The ALU has output bus is set to the output of a mux, which selects 
+ * from the output of an internal shifter/rotater block, an fblock which 
+ * computes tritwise operations, and an adder/subtractor block.
+ */
 
 import {AddSub, ThreeOne, NineTwo} from "./cpu_devices.js"
 import * as gates from "../TriArithmetic/gates.js"
@@ -12,11 +14,26 @@ import * as SR from "../TriArithmetic/shiftRot.js"
 import {Tri} from "../representation/tri.js"
 import { wordMap, wordMap2 } from "../TriArithmetic/gates.js"
 import { AbsractDevice } from "../representation/device.js"
+import { IOBus } from "../representation/IOBus.js"
 
-// The F-block allows the ALU to output Tritwise mapped gate operations between 
-// 2 input busses
+/**
+ * The FBlock is a combinational logic device which performs tritwise operations
+ * on two input busses based on the control signals from the CPU control unit.
+ * 
+ * @property {NineTwo} mux - the mux which selects the output of the FBlock
+ * @extends AbsractDevice
+ */
 class FBlock extends AbsractDevice {
     mux = new NineTwo();
+
+    /**
+    * Create a new FBlock
+    * 
+     * @param {IOBus} DBIn1 - the first input data bus
+     * @param {IOBus} DBIn2 - the second input data bus
+     * @param {Tri[]} selects - the control signals from the CPU control unit
+     * @constructor
+     */
     constructor(DBIn1, DBIn2, selects) {
         super();
         this.addInput(DBIn1);
@@ -24,6 +41,9 @@ class FBlock extends AbsractDevice {
         this.mux.sigs = selects;
     }
 
+    /**
+     * Compute the output of the FBlock
+     */
     compute() {
         let dataIn1 = this.inputs[0].readBus();
         let dataIn2 = this.inputs[1].readBus();
@@ -44,16 +64,32 @@ class FBlock extends AbsractDevice {
     }
 }
 
-// The shifter/rotater block allows the ALU to output shifted and rotated
-// versions of the input busses, shifted or rotated in either direction
+/**
+ * The ShiftRotate block is a combinational logic device which performs shift
+ * and rotate operations on the input data bus based on the control signals from
+ * the CPU control unit.
+ * 
+ * @property {NineTwo} mux - the mux which selects the output of the ShiftRotate
+ * @extends AbsractDevice
+ */
 class ShiftRotate extends AbsractDevice {
     mux = new NineTwo();
+    /**
+     * Create a new ShiftRotate block
+     * 
+     * @param {IOBus} DBIn - the input data bus
+     * @param {Tri[]} selects - the control signals from the CPU control unit
+     * @constructor
+     */
     constructor(DBIn, selects) {
         super();
         this.addInput(DBIn);
         this.mux.sigs = selects;
     }
 
+    /**
+     * Compute the output of the ShiftRotate block
+     */
     compute() {
         let dataIn = this.inputs[0].readBus();
         // The allowed shift/rotate operations are mapped to the mux output
@@ -69,11 +105,33 @@ class ShiftRotate extends AbsractDevice {
     }
 }
 
-// The main arithmetic logic unit of the CPU.
+/**
+ * The ALU is a combinational logic device which performs arithmetic and
+ * tritwise operations on two input busses. The ALU is controlled by a set of
+ * control signals which determine which operation is performed and are
+ * specified by the CPU control unit. The ALU has output bus is set to the
+ * output of a mux, which selects from the output of an internal shifter/rotater
+ * block, an fblock which computes tritwise operations, and an adder/subtractor
+ * block.
+ * 
+ * @property {Tri[]} signal_lines - the control signals from the CPU control unit
+ * @property {AddSub} addsub - the adder/subtractor block
+ * @property {FBlock} fblock - the fblock
+ * @property {ShiftRotate} shiftRot - the shifter/rotater block
+ * @property {ThreeOne} mux - the mux which selects the output of the ALU
+ * @extends AbsractDevice
+ */
 export class ALU extends AbsractDevice{
     //Internal logic blocks
     mux = new ThreeOne();
 
+    /**
+     * Create a new ALU
+     * 
+     * @param {IOBus} DBIn1 - the first input data bus
+     * @param {IOBus} DBIn2 - the second input data bus
+     * @param {Tri[]} signal_lines - the control signals from the CPU control unit
+     */
     constructor(DBIn1, DBIn2, signal_lines) {
         super();
         // input data busses
@@ -102,6 +160,9 @@ export class ALU extends AbsractDevice{
         this.mux.sig = this.signal_lines.data[3];
     }
 
+    /**
+     * Compute the output of the ALU
+     */
     compute() {
         // Compute the output of each internal logic block
         this.addsub.compute();
