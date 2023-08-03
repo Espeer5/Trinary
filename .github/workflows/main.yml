@@ -43,10 +43,15 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./out
   lint:
+    name: Run linters
     runs-on: ubuntu-latest
+
     steps:
-      - name: Setup lint
-        uses: wearerequired/lint-action@v2.3.0
+      - name: Check out Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: 12
 
