@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.3
 
       - name: Build
         uses: andstor/jsdoc-action@v1
@@ -45,10 +45,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup lint
-        uses: wearerequired/lint-action@v2.3.0
+      - name: Checkout code
+        uses: actions/checkout@v3.5.3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3.7.0
         with:
-          node-version: 12
+          node-version: 20.5.0
 
       - name: Install Node.js dependencies
         run: npm ci
