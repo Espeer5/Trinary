@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x]
@@ -24,6 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm run test
+      
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -43,3 +42,19 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./out
+  lint:
+  runs-on: ubuntu-latest
+    steps:
+      - name: Setup lint
+      uses: wearerequired/lint-action@v2.3.0
+      with:
+          node-version: 12
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          prettier: true
