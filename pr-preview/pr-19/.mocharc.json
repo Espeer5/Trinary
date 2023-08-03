@@ -1,0 +1,5 @@
+{
+    "extension": ["js", "cjs", "mjs"],
+    "ui": "bdd",
+    "require": "mocha.setup.mjs"
+}
