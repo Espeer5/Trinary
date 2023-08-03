@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.3
 
       - name: Build
         uses: andstor/jsdoc-action@v1
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Check out Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.3
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
