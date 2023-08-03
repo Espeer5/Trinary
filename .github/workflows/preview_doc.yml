@@ -1,7 +1,7 @@
-name: build and deploy docs
+name: Preview PR Docs
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 jobs:
@@ -20,8 +20,7 @@ jobs:
           recurse: true
           front_page: README.md
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy Preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./out
+          source-dir: ./out
