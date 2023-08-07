@@ -21,3 +21,36 @@ export function wordToDec(word) {
   }
   return dec;
 }
+
+/**
+ * Converts a dec to balanced ternary representation
+ * @param {decimal} decimal
+ * @returns {balancedTernary} - ternary value
+ */
+export function decimalToBalancedTernary(decimal) {
+  function decimalToBalancedTernaryDigit(digit) {
+    if (digit === 0) return 0;
+    if (digit === 1) return 1;
+    if (digit === 2) return -1;
+  }
+
+  // Check if the decimal number is within the bounds
+  const maxDecimal = 3 ** (WORD_SIZE - 1) - 1;
+  const minDecimal = -maxDecimal;
+
+  if (decimal > maxDecimal || decimal < minDecimal) {
+    throw new Error("Decimal number is out of bounds for the given WORD_SIZE.");
+  }
+
+  // Convert the decimal number to balanced ternary representation
+  let balancedTernary = [];
+  let num = decimal;
+
+  while (balancedTernary.length < WORD_SIZE) {
+    const remainder = num % 3;
+    balancedTernary.unshift(decimalToBalancedTernaryDigit(remainder));
+    num = (num - remainder) / 3;
+  }
+
+  return balancedTernary;
+}
