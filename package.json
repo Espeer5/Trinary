@@ -5,7 +5,7 @@
   "main": "cpu.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --loader=testdouble",
+    "test": "nyc mocha --loader=testdouble",
     "test:watch": "mocha --loader=testdouble test/unit --parallel --watch",
     "test:cov": "c8 mocha --loader=testdouble"
   },
@@ -14,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^5.1.1",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "chai": "^4.3.7",
