@@ -5,7 +5,7 @@
   "main": "cpu.js",
   "type": "module",
   "scripts": {
-    "test": "nyc mocha --loader=testdouble",
+    "test": "nyc --reporter=lcov mocha --loader=testdouble",
     "test:watch": "mocha --loader=testdouble test/unit --parallel --watch",
     "test:cov": "c8 mocha --loader=testdouble"
   },
