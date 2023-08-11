@@ -4,12 +4,8 @@ import { wordToDec, decimalToBalancedTernary } from "../src/TriArithmetic/conver
 import assert from "assert";
 import { WORD_SIZE } from "../src/constants.js";
 
-console.log("running");
-/* let cpu = new CPU();
-
-for(let i = 0; i <= 5; i++) {
-    console.log(decimalToBalancedTernary(i));
-}
+/* console.log("running");
+let cpu = new CPU();
 
 cpu.alu.inputs[0].setTri(0, 1);
 cpu.alu.inputs[1].setTri(0, 1);
@@ -25,4 +21,5 @@ cpu.alu.inputs[0].setTri(0, 0);
 cpu.alu.inputs[1].setTri(0, 0);
 cpu.alu.inputs[0].setTri(1, 1);
 cpu.compute();
-console.log(cpu.accumulator.toString()); */
+console.log(cpu.accumulator.toString());
+ */

@@ -13,6 +13,8 @@ describe("Conversion Bounds", function () {
         }
         assert.throws(() => decimalToBalancedTernary(max_word + 1));
         assert.throws(() => decimalToBalancedTernary(min_word - 1));
+        assert.doesNotThrow(() => decimalToBalancedTernary(max_word));
+        assert.doesNotThrow(() => decimalToBalancedTernary(min_word));
     });
 });
 
