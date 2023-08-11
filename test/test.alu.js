@@ -1,5 +1,8 @@
 import { CPU } from "../src/CPU/cpu.js";
-import { wordToDec } from "../src/TriArithmetic/conversions.js";
+import { Tri } from "../src/representation/tri.js";
+import { wordToDec, decimalToBalancedTernary } from "../src/TriArithmetic/conversions.js";
+import assert from "assert";
+import { WORD_SIZE } from "../src/constants.js";
 
 console.log("running");
 let cpu = new CPU();
