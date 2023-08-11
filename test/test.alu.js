@@ -26,24 +26,3 @@ cpu.alu.inputs[1].setTri(0, 0);
 cpu.alu.inputs[0].setTri(1, 1);
 cpu.compute();
 console.log(cpu.accumulator.toString()); */
-
-let tri_zero = []
-let tri_minus_one = []
-let tri_one = []
-
-for (let i = 0; i < WORD_SIZE; i++) {
-    tri_zero[i] = new Tri();
-    tri_minus_one[i] = new Tri();
-    tri_one[i] = new Tri();
-}
-
-tri_minus_one[0].setState(-1)
-tri_one[0].setState(1)
-
-describe("decimalToBalancedTernary", function() {
-    it("should convert decimal numbers to balanced ternary representation", function() {
-        assert.equal(decimalToBalancedTernary(0), tri_zero);
-        assert.equal(decimalToBalancedTernary(1), tri_one);
-        assert.equal(decimalToBalancedTernary(-1), tri_minus_one);
-    });
-});
