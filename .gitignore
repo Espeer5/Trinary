@@ -9,3 +9,6 @@ out/
 
 # Ignore key-gens
 gh-*
+
+# Ignore the coverage reports generated locally
+coverage/
