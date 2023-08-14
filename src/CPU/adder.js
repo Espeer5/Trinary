@@ -88,6 +88,6 @@ export class Adder {
     this.hAdd_cIn.compute();
 
     // Set the carry out, the ANY of the two intermediate carry terms
-    this.cOut.setState(gates.ANY(this.inter_c_1, this.inter_c_2));
+    this.cOut.setState(gates.ANY(this.inter_c_1.state, this.inter_c_2.state));
   }
 }

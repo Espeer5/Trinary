@@ -28,7 +28,6 @@ export class CPU {
 
   compute() {
     this.alu.compute();
-    console.log(this.alu.output.readBus());
     this.accumulator.writeWord(this.alu.output.readBus());
   }
 }
