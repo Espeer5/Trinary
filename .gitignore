@@ -12,3 +12,6 @@ gh-*
 
 # Ignore the coverage reports generated locally
 coverage/
+
+# Ignore the makefile
+Makefile
