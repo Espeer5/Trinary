@@ -1,9 +1,6 @@
 # Ignore any html used for local testing
 *.html
 
-# Ignore any scripts used to generate test data
-*.py
-
 # Ignore the locally generated API documentation
 out/
 
@@ -12,6 +9,3 @@ gh-*
 
 # Ignore the coverage reports generated locally
 coverage/
-
-# Ignore the makefile
-Makefile
