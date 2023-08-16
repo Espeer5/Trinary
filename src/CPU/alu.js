@@ -170,6 +170,17 @@ export class ALU extends AbsractDevice {
   }
 
   /**
+   * Set the control signals for the ALU to the values in the given instruction
+   *
+   * @param {Tri[]} instruction - the control signals from the CPU control unit
+   */
+  writeInstruction(instruction) {
+    for (let i = 0; i < instruction.length; i++) {
+      this.signal_lines.data[i].setState(instruction[i].state);
+    }
+  }
+
+  /**
    * Compute the output of the ALU
    */
   compute() {

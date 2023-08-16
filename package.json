@@ -5,7 +5,7 @@
   "main": "cpu.js",
   "type": "module",
   "scripts": {
-    "test": "c8 --reporter=lcov mocha --loader=testdouble",
+    "test": "make clean && make gen_tests && c8 --reporter=lcov mocha --loader=testdouble",
     "test:watch": "mocha --loader=testdouble test/unit --parallel --watch",
     "test:cov": "c8 mocha --loader=testdouble"
   },
@@ -16,6 +16,7 @@
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
     "c8": "^8.0.1",
+    "csv-parser": "^3.0.0",
     "nyc": "^15.1.0"
   },
   "devDependencies": {
