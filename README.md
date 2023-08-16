@@ -15,6 +15,7 @@ Future plans for this simulator beyond the CPU include:
 | **Documentation**    | [![dev][docs-dev-img]][docs-dev-url]          |
 | **Tests**            | [![gha ci][gha-ci-img]][gha-ci-url]           |
 | **Code Coverage**    | [![codecov][codecov-img]][codecov-url]        |
+| **MIT License**      | [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) |
 
 [docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
 [docs-dev-url]: https://espeer5.github.io/Trinary/
