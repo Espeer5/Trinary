@@ -5,7 +5,7 @@
   "main": "cpu.js",
   "type": "module",
   "scripts": {
-    "test": "c8 --reporter=lcov mocha --loader=testdouble",
+    "test": "make clean && make gen_tests && c8 --reporter=lcov mocha --loader=testdouble",
     "test:watch": "mocha --loader=testdouble test/unit --parallel --watch",
     "test:cov": "c8 mocha --loader=testdouble"
   },

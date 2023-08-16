@@ -9,3 +9,6 @@ gh-*
 
 # Ignore the coverage reports generated locally
 coverage/
+
+# Ignore the testing data files
+*.csv
