@@ -13,5 +13,5 @@ A ternary computer simulator built in Javascript!
 [gha-ci-img]: https://github.com/espeer5/Trinary/actions.wokflows/test.yml/badge.svg
 [gha-ci-url]: https://github.com/espeer5/Trinary/actions.wokflows/test.yml
 
-[codecov-img]: https://codecov.io/gh/CliMA/ClimaLSM.jl/branch/main/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/CliMA/ClimaLSM.jl
+[codecov-img]: https://codecov.io/gh/espeer5/Trinary/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/espeer5/Trinary
