@@ -11,7 +11,7 @@ A ternary computer simulator built in Javascript!
 [docs-dev-url]: https://espeer5.github.io/Trinary/
 
 [gha-ci-img]: https://github.com/espeer5/Trinary/actions/workflows/test.yml/badge.svg
-[gha-ci-url]: https://github.com/espeer5/Trinary/actions/wokflows/test.yml
+[gha-ci-url]: https://github.com/espeer5/Trinary/actions/workflows/test.yml
 
 [codecov-img]: https://codecov.io/gh/espeer5/Trinary/branch/main/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/espeer5/Trinary
