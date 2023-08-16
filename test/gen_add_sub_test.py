@@ -1,3 +1,9 @@
+"""
+This file generates a csv file of test cases for the add and sub operations
+of the 16 trit balanced ternary number system. The test cases are a mix of
+basic, necessary cases and random cases.
+"""
+
 import csv
 import random
 

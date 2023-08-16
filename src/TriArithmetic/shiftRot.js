@@ -1,4 +1,8 @@
-/** Utility functions for shifting or rotating a word on this system */
+/**
+ * Utility functions for shifting or rotating a word on this system
+ * Note that the system is little endian, so the least significant bit is at
+ * index 0. Left shifts are defined as highest significance towards lowest.
+ */
 
 import { IOBus } from "../representation/IOBus.js";
 import { WORD_SIZE } from "../constants.js";
