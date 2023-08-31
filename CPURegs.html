@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Word</title>
+    <title>JSDoc: Class: CPURegs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Word</h1>
+    <h1 class="page-title">Class: CPURegs</h1>
 
     
 
@@ -28,14 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Word<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>CPURegs<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Class representing a word as an array of Tris. Each word is of size WORD_SIZE
-defined in constants.js. Words are intended as the basic unit of data storage
-and are stored in one place. They are not intended to be used as registers
-or for computation, use IOBusses for that. As a result the data is a
-protected field and can only be accessed through the readWord() and
-writeWord() methods.</div>
+            <div class="class-description">The register array of the CPU.</div>
         
     
 </header>
@@ -50,12 +45,19 @@ writeWord() methods.</div>
     
 
     
-    <h4 class="name" id="Word"><span class="type-signature"></span>new Word<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="CPURegs"><span class="type-signature"></span>new CPURegs<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
 
 
+
+<div class="description">
+    Create the register array. The registers are pre-allocated as Word
+objects. The number of registers is defined by the constant
+REGISTERS_COUNT under the system constants. At least 4 registers are
+required.
+</div>
 
 
 
@@ -95,13 +97,13 @@ writeWord() methods.</div>
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>registers</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Tri.html">Tri</a>></span>
+<span class="param-type">Array.&lt;<a href="Word.html">Word</a>></span>
 
 
             
@@ -111,7 +113,7 @@ writeWord() methods.</div>
 
             
 
-            <td class="description last">the private array of Tris that make up the word</td>
+            <td class="description last">The array of CPU registers</td>
         </tr>
 
     
@@ -150,7 +152,7 @@ writeWord() methods.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="representation_word.js.html">representation/word.js</a>, <a href="representation_word.js.html#line16">line 16</a>
+        <a href="CPU_registers.js.html">CPU/registers.js</a>, <a href="CPU_registers.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -191,7 +193,7 @@ writeWord() methods.</div>
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="Word.html">Word</a></dt>
+            <dt><a href="CPURegs.html">CPURegs</a></dt>
             <dd></dd>
         </dl>
     
@@ -213,7 +215,7 @@ writeWord() methods.</div>
     
 
     
-    <h4 class="name" id="readWord"><span class="type-signature"></span>readWord<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="Tri.html">Tri</a>>}</span></h4>
+    <h4 class="name" id="read_reg"><span class="type-signature"></span>read_reg<span class="signature">(index)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="Tri.html">Tri</a>>}</span></h4>
     
 
     
@@ -221,228 +223,8 @@ writeWord() methods.</div>
 
 
 <div class="description">
-    Return the data array stored in the word to read their states
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="representation_word.js.html">representation/word.js</a>, <a href="representation_word.js.html#line30">line 30</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - the array of Tris stored in the word
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="Tri.html">Tri</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Return a string representation of the word. The string is the
-concatenation of the states of the Tris in the word
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="representation_word.js.html">representation/word.js</a>, <a href="representation_word.js.html#line54">line 54</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - a string representation of the word
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="writeWord"><span class="type-signature"></span>writeWord<span class="signature">(data)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Write an array of Tris to the word. The array must be of size WORD_SIZE
+    Reads a word from the register specified by the index, which must be 
+within the bounds of the size of the register array.
 </div>
 
 
@@ -478,13 +260,13 @@ concatenation of the states of the Tris in the word
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>index</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Tri.html">Tri</a>></span>
+<span class="param-type">number</span>
 
 
             
@@ -494,7 +276,7 @@ concatenation of the states of the Tris in the word
 
             
 
-            <td class="description last">the array of Tris to write to the word</td>
+            <td class="description last">the index of the register to read from</td>
         </tr>
 
     
@@ -535,7 +317,7 @@ concatenation of the states of the Tris in the word
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="representation_word.js.html">representation/word.js</a>, <a href="representation_word.js.html#line40">line 40</a>
+        <a href="CPU_registers.js.html">CPU/registers.js</a>, <a href="CPU_registers.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -565,7 +347,219 @@ concatenation of the states of the Tris in the word
 <dl>
     <dt>
         <div class="param-desc">
-        - if the array is not of size WORD_SIZE
+        - if the index is reserved or out of bounds
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - the word stored in the register
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;<a href="Tri.html">Tri</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="write_reg"><span class="type-signature"></span>write_reg<span class="signature">(word, index)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Writes a word to the register specified by the index, which must be 
+within the bounds of the size of the register array.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>word</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="Tri.html">Tri</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the word to write to the register</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the index of the register to write to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="CPU_registers.js.html">CPU/registers.js</a>, <a href="CPU_registers.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        - if the index is reserved or out of bounds
         </div>
     </dt>
     <dd></dd>
@@ -616,7 +610,7 @@ concatenation of the states of the Tris in the word
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Aug 31 2023 19:37:48 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Aug 31 2023 19:38:27 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
