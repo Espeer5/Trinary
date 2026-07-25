@@ -1,4 +1,8 @@
 # Trinary
+
+## PLEASE NOTE:
+This project is on-hold in favor of other pursuits, but I do intend to return to it in time.
+
 This is an in-development simulator for the arithmetic logic unit of a CPU operating in ternary (base 3). The ALU consists of logic circuits combined with input and output busses enabling the CPU to execute the logical and arithmetic operations of an assembly instruction set. In this case the ALU executes a ternary based instruction set which has different logical instructions than a binary assembly would.
 
 Balanced ternary offers syntactic advantages over binary based systems which operate based on 2's-complement, giving equal storage capacity for negative and positive integers within a word as well as removing the need to specify signed vs. unsigned treatment of data.
